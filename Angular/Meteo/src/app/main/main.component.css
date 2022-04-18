@@ -1,0 +1,135 @@
+.outTemp{
+    width: 45%;
+    min-width: 330px;
+    height: 100px;
+    background-color: whitesmoke;
+}
+.inTemp{
+    width: 45%;
+    height: 100px;
+    min-width: 330px;
+    background-color: whitesmoke;
+}
+.info{
+    width: 100%;
+    background-color: whitesmoke;
+    padding-bottom: 5px;
+    justify-content: center;
+    text-align: center;
+    font-family: monospace;
+    font-size: 15px;
+}
+.maxTempOut{
+    width: 45%;
+    height: 130px;
+    min-width: 330px;
+    background-color: whitesmoke;
+}
+.maxTempIn{
+    width: 45%;
+    height: 130px;
+    min-width: 330px;
+    background-color: whitesmoke;
+}
+.minTempOut{
+    width: 45%;
+    height: 130px;
+    min-width: 330px;
+    background-color: whitesmoke;
+}
+.minTempIn{
+    width: 45%;
+    height: 130px;
+    min-width: 330px;
+    background-color: whitesmoke;
+}
+.maxRain{
+    width: 45%;
+    height: 130px;
+    min-width: 330px;
+    background-color: whitesmoke;
+}
+.maxWind{
+    width: 45%;
+    height: 130px;
+    min-width: 330px;
+    background-color: whitesmoke;
+}
+.temperatures{
+    width: 100%;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    background-color: whitesmoke;
+    padding-top: 20px;
+    border-bottom: 3px solid lightgray;
+}
+.max-record-temps{
+    width: 100%;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    background-color: whitesmoke;
+    padding-top: 20px;
+}
+.min-record-temps{
+    width: 100%;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    background-color: whitesmoke;
+    padding-top: 20px;
+}
+.records-wind-rain{
+    width: 100%;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    background-color: whitesmoke;
+    padding-top: 20px;
+}
+h3{
+    font-family: monospace;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+h2{
+    padding-top: 10px;
+    font-family: monospace;
+    font-size: 25px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.actualTemp{
+    font-size: 20px;
+    font-family: monospace;
+    padding: 5px;
+}
+.recordTemp{
+    font-size: 20px;
+    font-family: monospace;
+    padding: 5px;
+}
+.recordDate{
+    font-size: 20px;
+    font-family: monospace;
+    padding: 5px;
+}
+.unit_button{
+    text-align: center;
+    background-color: whitesmoke;
+    text-decoration: none;
+    border: 1px solid black;
+    display: inline-block;
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+}
+.buttons{
+    background-color: whitesmoke;
+    width: 100%;   
+    justify-content: center;
+    display: flex;
+}

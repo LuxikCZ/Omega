@@ -1,0 +1,25 @@
+<mat-sidenav-container class="main">
+    <mat-sidenav #sidenav>
+        <ul>
+            <li>
+                <a class="sidenav-button2" (click)="sidenav.toggle()">&#9776;</a>
+            </li>
+            <li>
+                <a class="nav-list-button" (click)="sidenav.toggle()" routerLink="main">Hlavní Stránka</a>
+            </li>
+            <li>
+                <a class="nav-list-button" (click)="sidenav.toggle()" routerLink="graphs">Grafy</a>
+            </li>
+        </ul>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar>
+            <a class="sidenav-button" (click)="sidenav.toggle()">&#9776;</a>
+            <span class="heading">Meteo</span>
+        </mat-toolbar>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+<footer class="footer">
+    <p>&#9400; 2022 Jakub Titěra</p>
+</footer>

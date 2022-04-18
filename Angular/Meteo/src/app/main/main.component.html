@@ -1,0 +1,55 @@
+<section class = "buttons">
+    <button class="unit_button" type="button" (click)="switchUnits()">Přepnout jednotky</button>
+</section>
+<div class="info">
+    <p>Aktuální jednotkový systém: {{unitSystem}}</p>
+</div>
+<section class="temperatures">
+    <div class="outTemp" id="outTemp">
+        <h3>Momentální vnější teplota</h3>
+        <p class="actualTemp">{{tempOut}}</p>
+    </div>
+    <div class="inTemp" id="inTemp">
+        <h3>Momentální vnitřní teplota</h3>
+        <p class="actualTemp">{{tempIn}}</p>
+    </div>
+</section>
+<div class="info">
+    <h2>Rekordy</h2>
+</div>
+<section class="max-record-temps">
+    <div class="maxTempOut">
+        <h3>Rekordní maximum vnější teploty</h3>
+        <p class="recordTemp">Teplota: {{maxTempOut}}</p>
+        <p class="recordDate">Rekord ze dne: {{maxTempOutDate}}</p>
+    </div>
+    <div class="maxTempIn">
+        <h3>Rekordní maximum vnitřní teploty</h3>
+        <p class="recordTemp">Teplota: {{maxTempIn}}</p>
+        <p class="recordDate">Rekord ze dne: {{maxTempInDate}}</p>
+    </div>
+</section>
+<section class="min-record-temps">
+    <div class="minTempOut">
+        <h3>Rekordní minimun vnější teploty</h3>
+        <p class="recordTemp">Teplota: {{minTempOut}}</p>
+        <p class="recordDate">Rekord ze dne: {{minTempOutDate}}</p>
+    </div>
+    <div class="minTempIn">
+        <h3>Rekordní minimum vnitřní teploty</h3>
+        <p class="recordTemp">Teplota: {{minTempIn}}</p>
+        <p class="recordDate">Rekord ze dne: {{minTempInDate}}</p>
+    </div>
+</section>
+<section class="records-wind-rain">
+    <div class="maxRain">
+        <h3>Rekordní maximum výšky srážek</h3>
+        <p class="recordTemp">Výška: {{maxRain}}</p>
+        <p class="recordDate">Rekord ze dne: {{maxRainDate}}</p>
+    </div>
+    <div class="maxWind">
+        <h3>Rekordní maximum rychlosti větru</h3>
+        <p class="recordTemp">Rychlost: {{maxWind}}</p>
+        <p class="recordDate">Rekord ze dne: {{maxWindDate}}</p>
+    </div>
+</section>

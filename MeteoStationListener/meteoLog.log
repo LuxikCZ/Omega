@@ -1,0 +1,4 @@
+2022-05-04 13:58:03 >>> Exception: java.sql.SQLException occured. Cause: Access denied for user 'kubat'@'localhost' (using password: NO)
+2022-05-04 13:59:43 >>> Exception: java.net.BindException occured. Cause: Address already in use: bind
+2022-05-04 13:59:48 >>> Exception: java.net.BindException occured. Cause: Address already in use: bind
+2022-05-04 14:00:36 >>> Exception: java.sql.SQLException occured. Cause: Access denied for user 'kubat'@'localhost' (using password: NO)

@@ -1,0 +1,6 @@
+This database contains data for:
+
+- Each hour for the day 2022-03-21
+- Each day for the week from 2022-03-14 to 2022-03-20
+
+For size reasons no more data is provided.

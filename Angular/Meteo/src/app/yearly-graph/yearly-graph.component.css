@@ -1,0 +1,80 @@
+ul{
+    list-style-type: none;
+    padding: 0;
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.graph_select{
+    text-decoration: none;
+    font-size: 30px;
+    padding: 20px;
+    font-family: monospace;
+}
+
+h3{
+    font-size: 25px;
+    text-align: left;
+    padding-top: 10px;
+    font-family: monospace;
+}
+
+.graph_toolbar{
+    background-color: whitesmoke;
+    padding-bottom: 30px;
+}
+
+.main{
+    background-color: whitesmoke;
+}
+
+.active{
+    background-color: silver;
+}
+
+.graphDiv{
+    height: 600x;
+    width: 100%;
+    background-color: whitesmoke;
+}
+
+.graph{
+    height: 550px;
+    width: 95%;
+    background-color: whitesmoke;
+}
+
+.unit_button{
+    text-align: center;
+    background-color: whitesmoke;
+    text-decoration: none;
+    border: 1px solid black;
+    display: inline-block;
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.show_button{
+    text-align: center;
+    background-color: whitesmoke;
+    text-decoration: none;
+    border: 1px solid black;
+    display: inline-block;
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+@media screen and (max-width: 400px){
+    ul{
+        display:table;
+    }
+    .graph_select{
+        display: table-row;
+        height: 50px;
+    }
+}

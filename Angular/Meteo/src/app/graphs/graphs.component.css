@@ -1,0 +1,45 @@
+ul{
+    list-style-type: none;
+    padding: 0;
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.graph_select{
+    text-decoration: none;
+    font-size: 30px;
+    padding: 20px;
+    font-family: monospace;
+}
+
+h3{
+    text-align: center;
+    padding-top: 10px;
+}
+
+.graph_toolbar{
+    background-color: whitesmoke;
+    padding-bottom: 30px;
+}
+
+.main{
+    background-color: whitesmoke;
+    justify-content: center;
+    text-align: center;
+}
+
+.main_text{
+    font-size: 20px;
+    font-family: monospace;
+}
+
+@media screen and (max-width: 400px){
+    ul{
+        display:table;
+    }
+    .graph_select{
+        display: table-row;
+        height: 50px;
+    }
+}

@@ -1,0 +1,45 @@
+<section class="graph_toolbar">
+    <ul>
+        <li>
+            <a class="graph_select" routerLink="../dailyGraph">Dení Graf</a>
+        </li>
+        <li>
+            <a class="graph_select" routerLink="../weeklyGraph">Týdení Graf</a>
+        </li>
+        <li>
+            <a class="graph_select" routerLink="../monthlyGraph">Měsíční Graf</a>
+        </li>
+        <li>
+            <a class="graph_select active" routerLink="../yearlyGraph">Roční Graf</a>
+        </li>
+    </ul>
+</section>
+<section class="main">
+    <h3>Vyberte hodnotu</h3>
+    <select name="property" id="property" #property>
+        <option value="tempc">Venkovní Teplota</option>
+        <option value="baromcm">Tlak</option>
+        <option value="humidity">Vlhkost</option>
+        <option value="windspeedkph">Rychlost Větru</option>
+        <option value="raincm">Výška srážek</option>
+        <option value="solarradiation">Sluneční Záření</option>
+        <option value="UV">UV Záření</option>
+        <option value="indoortempc">Vnitřní Teplota</option>
+        <option value="indoorhumidity">Vnitřní Vlhkost</option>
+    </select>
+    <h3>Vyberte rok</h3>
+    <select name="year" id="year" #year>
+        <option 
+        *ngFor="let opt of years"
+        [value]="opt"
+        >
+            {{opt}}
+        </option>
+    </select>
+    <br>
+    <button class="show_button" type="button" (click)="displayGraphInit(property.value, year.value)">Zobrazit Graf</button>
+    <button class="unit_button" type="button" (click)="switchUnits()">Přepnout jednotky</button>
+</section>
+<div class="graphDiv" id="graphDiv">
+    <canvas class="graph" id="graph"></canvas>
+</div>
