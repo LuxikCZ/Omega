@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import luxik.spring.model.Data;
 /**
- * 
+ * Class for all SQL queries
  * @author luxik
  *
  */

@@ -4,6 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+/**
+ * Model for a virtual entity consisting only of one value and one date
+ * @author luxik
+ */
 @Entity
 public class ValueDate { //model for virtual table, that contains one value and one date
 	@Id

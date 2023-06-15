@@ -3,11 +3,16 @@ package luxik.spring.logging;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 /**
- * 
+ * Class for the log string parser
  * @author luxik
  *
  */
 public class LogStringParser {
+	/**
+	 * Method for parsing log string
+	 * @param write Object to log
+	 * @return Parsed string for log writer
+	 */
 	protected static String parseLogString(Object write) {
 		String logString = "";
 		

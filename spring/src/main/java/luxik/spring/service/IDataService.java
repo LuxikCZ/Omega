@@ -5,6 +5,10 @@ import java.util.List;
 
 import luxik.spring.model.ValueDate;
 
+/**
+ * Interface for data service class
+ * @author luxik
+ */
 public interface IDataService
 {
 	public Float getAverageInHour(Integer hour, String day, String value);

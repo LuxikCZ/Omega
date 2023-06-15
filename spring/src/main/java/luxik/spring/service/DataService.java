@@ -10,12 +10,23 @@ import org.springframework.stereotype.Service;
 import luxik.spring.model.ValueDate;
 import luxik.spring.repository.DataRepository;
 
+/**
+ * Class for data service methods
+ * @author luxik
+ */
 @Service
 public class DataService implements IDataService {
 
 	@Autowired
-	private DataRepository repository;
+	private DataRepository repository; // SQL query repository object
 
+	/**
+	 * Method for getting average values in hour
+	 * @param hour specified hour
+	 * @param day specified day
+	 * @param value specified value to get
+	 * @return Average of the value in hour
+	 */
 	@Override
 	public Float getAverageInHour(Integer hour, String day, String value) {
 		switch(value) {
@@ -50,6 +61,13 @@ public class DataService implements IDataService {
 		}//end switch
 	}//end method
 
+	/**
+	 * Method for getting average value for each day in a week
+	 * @param date start date for week
+	 * @param day specified day in week
+	 * @param value specified value
+	 * @return Average value for the one specified day
+	 */
 	@Override
 	public Float getAverageInWeek(String date, Integer day, String value) {
 		switch(value) {
@@ -83,13 +101,21 @@ public class DataService implements IDataService {
 			return null;
 		}//end switch
 	}//end method
-	
+
+	/**
+	 * Method for getting all available years
+	 * @return List of available years
+	 */
 	@Override
 	public List<Integer> getYears() {
 		List<Integer> itl = repository.getYears();
 		return itl;
 	}//end method
 
+	/**
+	 * Method for getting all available months
+	 * @return List of available months
+	 */
 	@Override
 	public HashMap<Integer, String> getMonths() {
 		List<Integer> itl = repository.getMonths();
@@ -137,6 +163,13 @@ public class DataService implements IDataService {
 		return hmp;
 	}//end method
 
+	/**
+	 * Method for getting average values for each day in a month
+	 * @param value specified value
+	 * @param month specified month in year
+	 * @param year specified year
+	 * @return List of average values for each day in month
+	 */
 	@Override
 	public List<Float> getAverageInMonth(String value, String month, String year) {
 		int iterate = 0;
@@ -218,7 +251,13 @@ public class DataService implements IDataService {
 			}//end switch
 		return finalList;
 	}//end method
-	
+
+	/**
+	 * Method for getting average value for each month in a yer
+	 * @param year specified year
+	 * @param value specified value
+	 * @return List of average values in the year
+	 */
 	@Override
 	public List<Float> getAverageInYear(String year, String value) {
 		int yr = Integer.parseInt(year);
@@ -281,16 +320,28 @@ public class DataService implements IDataService {
 		return finalList;
 	}//end method
 
+	/**
+	 * Method for getting the newest indoor temperature value in the database.
+	 * @return Temp value in Fahrenheit
+	 */
 	@Override
 	public Float getNewestTempIn() {
 		return repository.getNewestTempIn();
 	}//end method
 
+	/**
+	 * Method for getting the newest outdoor temperature value in the database.
+	 * @return Temp value in Fahrenheit
+	 */
 	@Override
 	public Float getNewestTempOut() {
 		return repository.getNewestTempOut();
 	}//end method
 
+	/**
+	 * Method for getting the max outdoor temperature value in the database.
+	 * @return Temp value in Fahrenheit
+	 */
 	@Override
 	public ValueDate getMaxTempOut() {
 		float temp =  repository.getMaxTempOut();
@@ -298,6 +349,10 @@ public class DataService implements IDataService {
 		return new ValueDate(temp, date);
 	}//end method
 
+	/**
+	 * Method for getting the max indoor temperature value in the database.
+	 * @return Temp value in Fahrenheit
+	 */
 	@Override
 	public ValueDate getMaxTempIn() {
 		float temp = repository.getMaxTempIn();
@@ -305,6 +360,10 @@ public class DataService implements IDataService {
 		return new ValueDate(temp,date);
 	}//end method
 
+	/**
+	 * Method for getting the max rain height in the databse.
+	 * @return Rain height value in inches.
+	 */
 	@Override
 	public ValueDate getMaxRain() {
 		float rain = repository.getMaxRain();
@@ -312,6 +371,10 @@ public class DataService implements IDataService {
 		return new ValueDate(rain, date);
 	}//end method
 
+	/**
+	 * Method for getting the max wind speed value in the database.
+	 * @return Wind speed in Mi/h
+	 */
 	@Override
 	public ValueDate getMaxWind() {
 		float wind = repository.getMaxWind();
@@ -319,6 +382,10 @@ public class DataService implements IDataService {
 		return new ValueDate(wind, date);
 	}//end method
 
+	/**
+	 * Method for getting the minimal indoor temperature value in the database.
+	 * @return Temp value in Fahrenheit
+	 */
 	@Override
 	public ValueDate getMinTempIn() {
 		float temp = repository.getMinTempIn();
@@ -326,6 +393,10 @@ public class DataService implements IDataService {
 		return new ValueDate(temp, date);
 	}//end method
 
+	/**
+	 * Method for getting the minimal outdoor temperature value in the database.
+	 * @return Temp value in Fahrenheit
+	 */
 	@Override
 	public ValueDate getMinTempOut() {
 		float temp = repository.getMinTempOut();

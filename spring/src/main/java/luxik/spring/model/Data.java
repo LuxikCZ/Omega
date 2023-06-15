@@ -5,6 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 
+/**
+ * Model for the whole database table
+ * @author luxik
+ */
 @Entity
 public class Data { //model for database table
 	@Id

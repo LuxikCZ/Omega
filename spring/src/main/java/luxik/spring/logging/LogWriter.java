@@ -5,11 +5,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 /**
- * 
+ * Class for the log writer
  * @author luxik
  *
  */
 public class LogWriter {
+	/**
+	 * Method for writing into a log file
+	 * @param toLog Exception/Error Object to log
+	 */
 	public static void WriteToLog(Object toLog) {
 		File logFile = new File("springLog.log"); //log file
 		if(!logFile.exists()) { //check if file exists

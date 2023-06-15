@@ -15,12 +15,21 @@ import luxik.spring.model.ValueDate;
 import luxik.spring.service.IDataService;
 import luxik.spring.convertions.UnitConvertor;
 
+/**
+ * Class for data controller. API calls from the front end.
+ * @author luxik
+ */
 @RestController
 public class DataController { //mapping controller for the app
 	
 	@Autowired
 	private IDataService dataService;
-	
+
+	/**
+	 * Method for getting the newest temperature values
+	 * @param value requested value (inner temp or outer)
+	 * @return requested value in float
+	 */
 	@CrossOrigin(origins="*") //allow any request origins
 	@GetMapping(path="/api/newest/{value}") //get http mapping
 	public @ResponseBody Float getNewestDataValue(@PathVariable String value) { //gets newest data for specified value
@@ -36,11 +45,17 @@ public class DataController { //mapping controller for the app
 		}//end switch
 		return null;
 	}//end method
-	
+
+	/**
+	 * Method for getting average value per hour in specified day
+	 * @param value requested value
+	 * @param day specified day
+	 * @return List of average values for each hour
+	 */
 	@CrossOrigin(origins="*") //allow any request origins
 	@GetMapping(path="/api/inhour/{value}/{day}") //get http mapping
-	public @ResponseBody Iterable <Float> distinctValueInHour(@PathVariable String value,
-			@PathVariable String day){ //gets all different values for specified value in specified hour
+	public @ResponseBody Iterable <Float> averageValuePerHour(@PathVariable String value,
+															  @PathVariable String day){ //gets all different values for specified value in specified hour
 		List<Float> flt = new ArrayList<Float>();
 		switch(value) {
 		case "tempc":
@@ -75,10 +90,16 @@ public class DataController { //mapping controller for the app
 			return flt;
 		}//end switch
 	}//end method
-	
+
+	/**
+	 * Method for getting average values for each day in a week
+	 * @param value requested value
+	 * @param date starting date for the weeek
+	 * @return List of average values for each day in a week
+	 */
 	@CrossOrigin(origins="*") //allow any request origins
 	@GetMapping(path="/api/weekly/{value}/{date}") //get http mapping
-	public @ResponseBody Iterable<Float> distinctWeekly(@PathVariable String value, @PathVariable String date){
+	public @ResponseBody Iterable<Float> averageWeekly(@PathVariable String value, @PathVariable String date){
 		List<Float> flt = new ArrayList<Float>();
 		//gets all different values of a specified value for each day in a specified week
 		switch(value) {
@@ -114,23 +135,38 @@ public class DataController { //mapping controller for the app
 			return flt;
 		}//end switch
 	}//end method
-	
+
+	/**
+	 * Method for getting all years that are mentioned in the database (that have any data for them)
+	 * @return List of years available
+	 */
 	@CrossOrigin(origins="*") //allow any request origins
 	@GetMapping(path="/api/years") //get http mapping
 	public @ResponseBody Iterable<Integer> getYears(){ //gets all years that are mentioned in the DB
 		return dataService.getYears();
 	}//end method
-	
+
+	/**
+	 * Method for getting all months that are mentioned in the database (have data for them)
+	 * @return List of months available
+	 */
 	@CrossOrigin(origins="*") //allow any request origins
 	@GetMapping(path="/api/months") //get http mapping
 	public @ResponseBody HashMap<Integer, String> getMonths(){ //gets all months mentioned in the DB
 		return dataService.getMonths();
 	}//end method
-	
+
+	/**
+	 * Method for getting average values for each day in a month
+	 * @param value requested value
+	 * @param month specified month
+	 * @param year year for the month
+	 * @return List of average values in month
+	 */
 	@CrossOrigin(origins="*") //allow any request origins
 	@GetMapping(path="/api/monthly/{value}/{month}/{year}") //get http mapping
-	public @ResponseBody Iterable<Float> getInMonth(@PathVariable String value, @PathVariable String month,
-			@PathVariable String year){
+	public @ResponseBody Iterable<Float> averageInMonth(@PathVariable String value, @PathVariable String month,
+														@PathVariable String year){
 		//gets all different values for specified value for each day in specified month
 		List<Float> finalList = new ArrayList<Float>();
 		List<Float> temporaryList;
@@ -169,10 +205,16 @@ public class DataController { //mapping controller for the app
 			return dataService.getAverageInMonth(value, month, year);
 		}//end switch
 	}//end method
-	
+
+	/**
+	 * Method for getting average values for each month in a year
+	 * @param value specified value
+	 * @param year specified year
+	 * @return List of average values in year
+	 */
 	@CrossOrigin(origins="*") //allow any request origins
 	@GetMapping(path="/api/yearly/{value}/{year}") //get http mapping
-	public @ResponseBody Iterable<Float> getInYear(@PathVariable String value, @PathVariable String year){
+	public @ResponseBody Iterable<Float> averageInYear(@PathVariable String value, @PathVariable String year){
 		List<Float> finalList = new ArrayList<Float>();
 		List<Float> temporaryList;
 		switch(value) {
@@ -211,7 +253,12 @@ public class DataController { //mapping controller for the app
 			return dataService.getAverageInYear(year, value);
 		}//end switch
 	}//end method
-	
+
+	/**
+	 * Method for getting the maximal value for a specified value
+	 * @param value specified value
+	 * @return maximal value
+	 */
 	@CrossOrigin(origins="*") //allow any request origins
 	@GetMapping(path="/api/max/{value}") //get http mapping
 	public @ResponseBody HashMap<Float, String> getMax(@PathVariable String value){
@@ -262,7 +309,12 @@ public class DataController { //mapping controller for the app
 		}//end switch
 		return null;
 	}//end method
-	
+
+	/**
+	 * Method for getting the minimal value for the specified value
+	 * @param value specified value
+	 * @return Minimal value
+	 */
 	@CrossOrigin(origins="*") //allow any request origins
 	@GetMapping(path="/api/min/{value}") //get http mapping
 	public @ResponseBody HashMap<Float, String> getMin(@PathVariable String value){
