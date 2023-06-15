@@ -1,10 +1,10 @@
 <section class="graph_toolbar">
     <ul>
         <li>
-            <a class="graph_select" routerLink="../dailyGraph">Dení Graf</a>
+            <a class="graph_select" routerLink="../dailyGraph">Denní Graf</a>
         </li>
         <li>
-            <a class="graph_select" routerLink="../weeklyGraph">Týdení Graf</a>
+            <a class="graph_select" routerLink="../weeklyGraph">Týdenní Graf</a>
         </li>
         <li>
             <a class="graph_select" routerLink="../monthlyGraph">Měsíční Graf</a>
@@ -38,6 +38,7 @@
     </select>
     <br>
     <button class="show_button" type="button" (click)="displayGraphInit(property.value, year.value)">Zobrazit Graf</button>
+    <br>
     <button class="unit_button" type="button" (click)="switchUnits()">Přepnout jednotky</button>
 </section>
 <div class="graphDiv" id="graphDiv">

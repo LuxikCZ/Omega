@@ -127,6 +127,11 @@ h2{
     font-weight: bold;
     padding: 10px;
 }
+
+.unit_button:active{
+    transform: scale(0.95);
+}
+
 .buttons{
     background-color: whitesmoke;
     width: 100%;   

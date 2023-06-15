@@ -8,7 +8,6 @@ import { MaterialModule } from './material.module';
 import { FormsModule } from '@angular/forms';
 import { APP_BASE_HREF, LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { GraphsComponent } from './graphs/graphs.component';
 import { MainComponent } from './main/main.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { DailyGraphComponent } from './daily-graph/daily-graph.component';
@@ -19,7 +18,6 @@ import { YearlyGraphComponent } from './yearly-graph/yearly-graph.component';
 @NgModule({
   declarations: [
     AppComponent,
-    GraphsComponent,
     MainComponent,
     NotFoundComponent,
     DailyGraphComponent,
