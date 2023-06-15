@@ -11,45 +11,29 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import luxik.spring.model.Data;
+import luxik.spring.model.ValueDate;
 import luxik.spring.service.IDataService;
-import luxik.spring.service.IDataService2;
+import luxik.spring.convertions.UnitConvertor;
 
 @RestController
 public class DataController { //mapping controller for the app
 	
 	@Autowired
 	private IDataService dataService;
-	@Autowired
-	private IDataService2 dataService2;
-	
-	@CrossOrigin(origins="*") //allow any request origins
-	@GetMapping(path="/api/data") //get http mapping
-	public @ResponseBody Iterable <Data> listData() {
-		return dataService.getData(); //gets all data from DB
-	}//end method
-	
-	@CrossOrigin(origins="*") //allow any request origins
-	@GetMapping(path="/api/newest") //get http mapping
-	public @ResponseBody Data newestData() {
-		return dataService.getNewestData(); //gets the newest data from DB
-	}//end method
 	
 	@CrossOrigin(origins="*") //allow any request origins
 	@GetMapping(path="/api/newest/{value}") //get http mapping
 	public @ResponseBody Float getNewestDataValue(@PathVariable String value) { //gets newest data for specified value
-		if(value.contentEquals("tempf")) { //gets temp in fahrenheit
-			return dataService2.getNewestTempOut();
-		}//end if
-		else if(value.contentEquals("tempc")) { //gets temp in celsius
-			return (float) ((dataService2.getNewestTempOut()-32)/1.8);
-		}//end else if
-		else if(value.contentEquals("indoortempf")) { //gets indoortemp in fahrenheit
-			return dataService2.getNewestTempIn();
-		}//end else if
-		else if(value.contentEquals("indoortempc")) { //gets indoortemp in celsius
-			return (float) ((dataService2.getNewestTempIn()-32)/1.8);
-		}//end else if
+		switch(value) {
+		case "tempf":
+			return dataService.getNewestTempOut();
+		case "tempc":
+			return UnitConvertor.convertToCelsius(dataService.getNewestTempOut());
+		case "indoortempf":
+			return dataService.getNewestTempIn();
+		case "indoortempc":
+			return UnitConvertor.convertToCelsius(dataService.getNewestTempIn());
+		}//end switch
 		return null;
 	}//end method
 	
@@ -58,42 +42,38 @@ public class DataController { //mapping controller for the app
 	public @ResponseBody Iterable <Float> distinctValueInHour(@PathVariable String value,
 			@PathVariable String day){ //gets all different values for specified value in specified hour
 		List<Float> flt = new ArrayList<Float>();
-		if(value.contentEquals("tempc")) {
+		switch(value) {
+		case "tempc":
 			for(int hour = 0; hour < 24; hour++) {
-				value = "tempf";
-				flt.add((float) ((dataService.getDistinctDataInHour(hour, day, value)-32)/1.8));
+				flt.add(UnitConvertor.convertToCelsius(dataService.getAverageInHour(hour, day, "tempf")));
 			}//end for
-		}//end if
-		else if(value.contentEquals("indoortempc")) {
-			for(int hour = 0; hour < 24; hour ++) {
-				value = "indoortempf";
-				flt.add((float) ((dataService.getDistinctDataInHour(hour, day, value)-32)/1.8));
+			return flt;
+		case "indoortempc":
+			for(int hour = 0; hour < 24; hour++) {
+				flt.add(UnitConvertor.convertToCelsius(dataService.getAverageInHour(hour, day, "indoortempf")));
 			}//end for
-		}//end else if
-		else if(value.contentEquals("baromcm")) {
-			for(int hour = 0; hour < 24; hour ++) {
-				value = "baromin";
-				flt.add((float) (dataService.getDistinctDataInHour(hour, day, value)*2.54));
+			return flt;
+		case "baromcm":
+			for(int hour = 0; hour < 24; hour++) {
+				flt.add(UnitConvertor.convertToCentimetres(dataService.getAverageInHour(hour, day, "baromin")));
 			}//end for
-		}//end else if
-		else if(value.contentEquals("raincm")) {
-			for(int hour = 0; hour < 24; hour ++) {
-				value = "rainin";
-				flt.add((float) (dataService.getDistinctDataInHour(hour, day, value)*2.54));
+			return flt;
+		case "raincm":
+			for(int hour = 0; hour < 24; hour++) {
+				flt.add(UnitConvertor.convertToCentimetres(dataService.getAverageInHour(hour, day, "rainin")));
 			}//end for
-		}//end else if
-		else if(value.contentEquals("windspeedkph")) {
-			for(int hour = 0; hour < 24; hour ++) {
-				value = "windspeedmph";
-				flt.add((float) (dataService.getDistinctDataInHour(hour, day, value)*1.609344));
+			return flt;
+		case "windspeedkph":
+			for(int hour = 0; hour < 24; hour++) {
+				flt.add(UnitConvertor.convertToKPH(dataService.getAverageInHour(hour, day, "windspeedmph")));
 			}//end for
-		}//end else if
-		else {
+			return flt;
+		default:
 			for(int hour =0; hour < 24; hour++) {
-				flt.add(dataService.getDistinctDataInHour(hour, day, value));
+				flt.add(dataService.getAverageInHour(hour, day, value));
 			}//end if
-		}//end else
-		return flt;
+			return flt;
+		}//end switch
 	}//end method
 	
 	@CrossOrigin(origins="*") //allow any request origins
@@ -101,42 +81,38 @@ public class DataController { //mapping controller for the app
 	public @ResponseBody Iterable<Float> distinctWeekly(@PathVariable String value, @PathVariable String date){
 		List<Float> flt = new ArrayList<Float>();
 		//gets all different values of a specified value for each day in a specified week
-		if(value.contentEquals("tempc")) {
+		switch(value) {
+		case "tempc":
 			for(int day = 0; day < 7; day++) {
-				value = "tempf";
-				flt.add((float) ((dataService.getDistinctWeekly(date, day, value)-32)/1.8));
+				flt.add(UnitConvertor.convertToCelsius(dataService.getAverageInWeek(date, day, "tempf")));
 			}//end for
-		}//end if
-		else if(value.contentEquals("indoortempc")) {
+			return flt;
+		case "indoortempc":
 			for(int day = 0; day < 7; day++) {
-				value = "indoortempf";
-				flt.add((float) ((dataService.getDistinctWeekly(date, day, value)-32)/1.8));
+				flt.add(UnitConvertor.convertToCelsius(dataService.getAverageInWeek(date, day, "indoortempf")));
 			}//end for
-		}//end else if
-		else if(value.contentEquals("baromcm")) {
+			return flt;
+		case "baromcm":
 			for(int day = 0; day < 7; day++) {
-				value = "baromin";
-				flt.add((float) (dataService.getDistinctWeekly(date, day, value)*2.54));
+				flt.add(UnitConvertor.convertToCentimetres(dataService.getAverageInWeek(date, day, "baromin")));
 			}//end for
-		}//end else if
-		else if(value.contentEquals("raincm")) {
+			return flt;
+		case "raincm": 
 			for(int day = 0; day < 7; day++) {
-				value = "rainin";
-				flt.add((float) (dataService.getDistinctWeekly(date, day, value)*2.54));
+				flt.add(UnitConvertor.convertToCentimetres(dataService.getAverageInWeek(date, day, "rainin")));
 			}//end for
-		}//end else if
-		else if(value.contentEquals("windspeedkph")) {
+			return flt;
+		case "windspeedkph":
 			for(int day = 0; day < 7; day++) {
-				value = "windspeedmph";
-				flt.add((float) (dataService.getDistinctWeekly(date, day, value)*1.609344));
+				flt.add(UnitConvertor.convertToKPH(dataService.getAverageInWeek(date, day, "windspeedmph")));
 			}//end for
-		}//end else if
-		else {
+			return flt;
+		default:
 			for(int day = 0; day < 7; day++) {
-				flt.add(dataService.getDistinctWeekly(date, day, value));
+				flt.add(dataService.getAverageInWeek(date, day, value));
 			}//end for
-		}//end else
-		return flt;
+			return flt;
+		}//end switch
 	}//end method
 	
 	@CrossOrigin(origins="*") //allow any request origins
@@ -156,97 +132,165 @@ public class DataController { //mapping controller for the app
 	public @ResponseBody Iterable<Float> getInMonth(@PathVariable String value, @PathVariable String month,
 			@PathVariable String year){
 		//gets all different values for specified value for each day in specified month
-		if(value.contentEquals("tempc")) {
-			List<Float> finalList = new ArrayList<Float>();
-			List<Float> floatList = dataService.getInMonth("tempf", month, year);
-			for(float flt : floatList) {
-				finalList.add((float) ((flt-32)/1.8));
+		List<Float> finalList = new ArrayList<Float>();
+		List<Float> temporaryList;
+		switch(value) {
+		case "tempc":
+			temporaryList = dataService.getAverageInMonth("tempf", month, year);
+			for(Float flt : temporaryList) {
+				finalList.add(UnitConvertor.convertToCelsius(flt));
 			}//end for
 			return finalList;
-		}//end if
-		else if(value.contentEquals("indoortempc")) {
-			List<Float> finalList = new ArrayList<Float>();
-			List<Float> floatList = dataService.getInMonth("indoortempf", month, year);
-			for(float flt : floatList) {
-				finalList.add((float) ((flt-32)/1.8));
+		case "indoortempc":
+			temporaryList = dataService.getAverageInMonth("indoortempf", month, year);
+			for(Float flt : temporaryList) {
+				finalList.add(UnitConvertor.convertToCelsius(flt));
 			}//end for
 			return finalList;
-		}//end else if
-		else if(value.contentEquals("baromcm")) {
-			List<Float> finalList = new ArrayList<Float>();
-			List<Float> floatList = dataService.getInMonth("baromin", month, year);
-			for(float flt : floatList) {
-				finalList.add((float) (flt * 2.54));
+		case "baromcm":
+			temporaryList = dataService.getAverageInMonth("baromin", month, year);
+			for(Float flt : temporaryList) {
+				finalList.add(UnitConvertor.convertToCentimetres(flt));
 			}//end for
 			return finalList;
-		}//end else if
-		else if(value.contentEquals("raincm")) {
-			List<Float> finalList = new ArrayList<Float>();
-			List<Float> floatList = dataService.getInMonth("rainin", month, year);
-			for(float flt : floatList) {
-				finalList.add((float) (flt * 2.54));
+		case "raincm":
+			temporaryList = dataService.getAverageInMonth("rainin", month, year);
+			for(Float flt : temporaryList) {
+				finalList.add(UnitConvertor.convertToCentimetres(flt));
 			}//end for
 			return finalList;
-		}//end else if
-		else if(value.contentEquals("windspeedkph")) {
-			List<Float> finalList = new ArrayList<Float>();
-			List<Float> floatList = dataService.getInMonth("rainin", month, year);
-			for(float flt : floatList) {
-				finalList.add((float) (flt * 1.609344));
+		case "windspeedkph":
+			temporaryList = dataService.getAverageInMonth("rainin", month, year);
+			for(Float flt : temporaryList) {
+				finalList.add(UnitConvertor.convertToKPH(flt));
 			}//end for
 			return finalList;
-		}//end else if
-		else {
-			return dataService.getInMonth(value, month, year);
-		}//end else
+		default:
+			return dataService.getAverageInMonth(value, month, year);
+		}//end switch
 	}//end method
 	
 	@CrossOrigin(origins="*") //allow any request origins
 	@GetMapping(path="/api/yearly/{value}/{year}") //get http mapping
 	public @ResponseBody Iterable<Float> getInYear(@PathVariable String value, @PathVariable String year){
-		if(value.contentEquals("tempc")) {
+		List<Float> finalList = new ArrayList<Float>();
+		List<Float> temporaryList;
+		switch(value) {
+		case "tempc":
 			//gets all different values for specified value in each month in specified year
-			List<Float> temporaryList = dataService2.getDataInYear(year, "tempf");
-			List<Float> finalList = new ArrayList<Float>();
+			temporaryList = dataService.getAverageInYear(year, "tempf");
 			for(Float flt : temporaryList) {
-				finalList.add((float) ((flt-32)/1.8));
+				finalList.add(UnitConvertor.convertToCelsius(flt));
 			}//end for
 			return finalList;
-		}//end if
-		else if(value.contentEquals("indoortempc")) {
-			List<Float> temporaryList = dataService2.getDataInYear(year, "indoortempf");
-			List<Float> finalList = new ArrayList<Float>();
+		case "indoortempc":
+			temporaryList = dataService.getAverageInYear(year, "indoortempf");
 			for(Float flt : temporaryList) {
-				finalList.add((float) ((flt-32)/1.8));
+				finalList.add(UnitConvertor.convertToCelsius(flt));
 			}//end for
 			return finalList;
-		}//end else if
-		else if(value.contentEquals("baromcm")) {
-			List<Float> temporaryList = dataService2.getDataInYear(year, "baromin");
-			List<Float> finalList = new ArrayList<Float>();
+		case "baromcm":
+			temporaryList = dataService.getAverageInYear(year, "baromin");
 			for(Float flt : temporaryList) {
-				finalList.add((float) (flt*2.54));
+				finalList.add(UnitConvertor.convertToCentimetres(flt));
 			}//end for
 			return finalList;
-		}//end else if
-		else if(value.contentEquals("raincm")) {
-			List<Float> temporaryList = dataService2.getDataInYear(year, "rainin");
-			List<Float> finalList = new ArrayList<Float>();
+		case "raincm":
+			temporaryList = dataService.getAverageInYear(year, "rainin");
 			for(Float flt : temporaryList) {
-				finalList.add((float) (flt*2.54));
+				finalList.add(UnitConvertor.convertToCentimetres(flt));
 			}//end for
 			return finalList;
-		}//end else if
-		else if(value.contentEquals("windspeedkph")) {
-			List<Float> temporaryList = dataService2.getDataInYear(year, "windspeedmph");
-			List<Float> finalList = new ArrayList<Float>();
+		case "windspeedkph":
+			temporaryList = dataService.getAverageInYear(year, "windspeedmph");
 			for(Float flt : temporaryList) {
-				finalList.add((float) (flt*1.609344));
+				finalList.add(UnitConvertor.convertToKPH(flt));
 			}//end for
 			return finalList;
-		}//end else if
-		else {
-			return dataService2.getDataInYear(year, value);
-		}//end else
+		default:
+			return dataService.getAverageInYear(year, value);
+		}//end switch
+	}//end method
+	
+	@CrossOrigin(origins="*") //allow any request origins
+	@GetMapping(path="/api/max/{value}") //get http mapping
+	public @ResponseBody HashMap<Float, String> getMax(@PathVariable String value){
+		//gets maximal value for specified value
+		HashMap<Float, String> tempMap;
+		ValueDate tmp;
+		switch(value) {
+		case "tempf":
+			tmp = dataService.getMaxTempOut();
+			tempMap = new HashMap<Float, String>();
+			tempMap.put(tmp.getValue(), tmp.getDate_ins());
+			return tempMap;
+		case "tempc":
+			tmp = dataService.getMaxTempOut();
+			tempMap = new HashMap<Float, String>();
+			tempMap.put(UnitConvertor.convertToCelsius(tmp.getValue()), tmp.getDate_ins());
+			return tempMap;
+		case "indoortempf":
+			tmp = dataService.getMaxTempIn();
+			tempMap = new HashMap<Float, String>();
+			tempMap.put(tmp.getValue(), tmp.getDate_ins());
+			return tempMap;
+		case "indoortempc":
+			tmp = dataService.getMaxTempIn();
+			tempMap = new HashMap<Float, String>();
+			tempMap.put(UnitConvertor.convertToCelsius(tmp.getValue()), tmp.getDate_ins());
+			return tempMap;
+		case "rainin":
+			tmp = dataService.getMaxRain();
+			tempMap = new HashMap<Float, String>();
+			tempMap.put(tmp.getValue(), tmp.getDate_ins());
+			return tempMap;
+		case "raincm":
+			tmp = dataService.getMaxRain();
+			tempMap = new HashMap<Float, String>();
+			tempMap.put(UnitConvertor.convertToCentimetres(tmp.getValue()), tmp.getDate_ins());
+			return tempMap;
+		case "windspeedmph":
+			tmp = dataService.getMaxWind();
+			tempMap = new HashMap<Float, String>();
+			tempMap.put(tmp.getValue(), tmp.getDate_ins());
+			return tempMap;
+		case "windspeedkph":
+			tmp = dataService.getMaxWind();
+			tempMap = new HashMap<Float, String>();
+			tempMap.put(UnitConvertor.convertToKPH(tmp.getValue()), tmp.getDate_ins());
+			return tempMap;
+		}//end switch
+		return null;
+	}//end method
+	
+	@CrossOrigin(origins="*") //allow any request origins
+	@GetMapping(path="/api/min/{value}") //get http mapping
+	public @ResponseBody HashMap<Float, String> getMin(@PathVariable String value){
+		//gets minimal value for specified value
+		ValueDate temp;
+		HashMap<Float, String> tempMap;
+		switch(value) {
+		case "tempf":
+			temp = dataService.getMinTempOut();
+			tempMap = new HashMap<Float, String>();
+			tempMap.put(temp.getValue(), temp.getDate_ins());
+			return tempMap;
+		case "tempc":
+			temp = dataService.getMinTempOut();
+			tempMap = new HashMap<Float, String>();
+			tempMap.put(UnitConvertor.convertToCelsius(temp.getValue()), temp.getDate_ins());
+			return tempMap;
+		case "indoortempf":
+			temp = dataService.getMinTempIn();
+			tempMap = new HashMap<Float, String>();
+			tempMap.put(temp.getValue(), temp.getDate_ins());
+			return tempMap;
+		case "indoortempc":
+			temp = dataService.getMinTempIn();
+			tempMap = new HashMap<Float, String>();
+			tempMap.put(UnitConvertor.convertToCelsius(temp.getValue()), temp.getDate_ins());
+			return tempMap;
+		}//end switch
+		return null;
 	}//end method
 }//end class

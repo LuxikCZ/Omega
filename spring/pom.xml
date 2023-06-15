@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>luxik</groupId>
 	<artifactId>spring</artifactId>
-	<version>Meteo-backend-v1.0</version>
+	<version>meteo-backend-v3.1.9</version>
 	<name>spring</name>
 	<description>Spring backend</description>
 	<properties>
